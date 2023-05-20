@@ -1,34 +1,4 @@
-# Define the Dockerfile that the image is based on
-# Replace <base-image> with the name of the base image you want to use
-# Replace <base-image-tag> with the tag of the base image you want to use
-image:
-file: .gitpod.Dockerfile
-# Replace <base-image> and <base-image-tag> with the name and tag of the base image you want to use
-# Example: name: python, tag: 3.9-slim-buster
-name: <base-image>
-tag: <base-image-tag>
 
-# Define the ports to forward
-ports:
-- 8888:8888
-
-# Define the tasks to run when the workspace is started
-tasks:
-- name: Build Deeplcd
-init: |
-mkdir build && cd build
-command: |
-cmake .. -DCaffe_ROOT_DIR=~/caffe && make
-
-- name: Run Jupyter Notebook
-command: |
-jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root
-
-- name: Run writeDatabase
-command: |
-cd /workspace/deeplcd &&抱歉，我的回答中有很多重复的部分和错误。以下是一个修复后的gitpod.yml文件，根据上面提供的两个文件编写而成：
-
-```yaml
 # Define the Dockerfile that the image is based on
 # Replace <base-image> with the name of the base image you want to use
 # Replace <base-image-tag> with the tag of the base image you want to use
