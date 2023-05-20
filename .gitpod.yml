@@ -1,0 +1,32 @@
+image:
+file: .gitpod.Dockerfile
+
+ports:
+- 8888:8888
+
+tasks:
+- name: Build Deeplcd
+init: |
+mkdir build && cd build
+command: |
+cmake .. -DCaffe_ROOT_DIR=~/caffe && make
+
+- name: Run Jupyter Notebook
+command: |
+jupyter notebook --ip 0.0.0.0 --port 8888 --no-browser --allow-root
+
+- name: Run writeDatabase
+command: |
+cd /workspace/deeplcd && python main.py writeDatabase --input-dir /workspace/data/images --output-dir /workspace/data/lmdb
+
+- name: Run testNet
+command: |
+cd /workspace/deeplcd && python main.py testNet --model /workspace/deeplcd/models/model.prototxt --weights /workspace/deeplcd/models/model.caffemodel --database /workspace/data/lmdb --output-path /workspace/data/results
+
+- name: Run speed-test
+command: |
+cd /workspace/deeplcd && ./speed-test /workspace/data/lmdb /workspace/data/images
+
+- name: Run online-demo-ws
+command: |
+cd /workspace/deeplcd && ./online
