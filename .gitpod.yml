@@ -1,17 +1,37 @@
 
 image:
-  file: .gitpod.Dockerfile
-  
-tasks:
-command: python main.py
+name: gcc:7
+vscode:
+extensions:
+- ms-vscode.cpptools
 
-ports:
-- port: 8888
-onOpen: open-preview
+# environment variables
+env:
+global:
+- GH_REPO_NAME=calc_test
+- GH_REPO_REF=https://github.com/nmerrill67/calc_test.git
 
-github:
-prebuilds:
-master: true
-cache:
-paths:
-- .pycaffe
+# install dependencies
+before_script:
+- sudo apt-get update
+- sudo apt-get install -y 
+  git \
+  autoconf \
+  build-essential \
+  cmake \
+  libboost-all-dev \
+  libopencv-dev \
+  libgflags-dev \
+  libopenblas-dev \
+  libprotobuf-dev \
+  libleveldb-dev \
+  libsnappy-dev \
+  libhdf5-serial-dev \
+  protobuf-compiler \
+  liblmdb-dev \
+  libgoogle-glog-dev \
+  libeigen3-dev \
+
+# build script
+script:
+- ./ci/build.sh
