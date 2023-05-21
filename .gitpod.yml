@@ -1,37 +1,45 @@
 
 image:
-name: gcc:7
-vscode:
-extensions:
-- ms-vscode.cpptools
+base: 'ubuntu:20.04'
 
-# environment variables
-env:
-global:
-- GH_REPO_NAME=calc_test
-- GH_REPO_REF=https://github.com/nmerrill67/calc_test.git
+tasks:
+- init: |
+sudo apt-get update
+sudo apt-get install -y \
+build-essential \
+cmake \
+git \
+autoconf \
+libboost-all-dev \
+libopencv-dev \
+libgflags-dev \
+libopenblas-dev \
+libprotobuf-dev \
+libleveldb-dev \
+libsnappy-dev \
+libhdf5-serial-dev \
+protobuf-compiler \
+liblmdb-dev \
+libgoogle-glog-dev \
+libeigen3-dev
+git clone https://github.com/nmerrill67/calc_test.git
+cd calc_test
+export GH_REPO_NAME=calc_test
+export GH_REPO_REF=https://github.com/nmerrill67/calc_test.git
+command: |
+cd calc_test
+./ci/build.sh
 
-# install dependencies
-before_script:
-- sudo apt-get update
-- sudo apt-get install -y 
-  git \
-  autoconf \
-  build-essential \
-  cmake \
-  libboost-all-dev \
-  libopencv-dev \
-  libgflags-dev \
-  libopenblas-dev \
-  libprotobuf-dev \
-  libleveldb-dev \
-  libsnappy-dev \
-  libhdf5-serial-dev \
-  protobuf-compiler \
-  liblmdb-dev \
-  libgoogle-glog-dev \
-  libeigen3-dev \
+ports:
+- port: 8080
 
-# build script
-script:
-- ./ci/build.sh
+github:
+prebuilds:
+addBadge: true
+addCheck: true
+addComment: true
+addLabel: gitpod-ready
+addSummary: true
+branches: true
+master: true
+pullRequests: true
